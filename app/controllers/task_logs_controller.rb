@@ -1,2 +1,0 @@
-class TaskLogsController < ApplicationController
-end
