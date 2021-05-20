@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_20_182810) do
+ActiveRecord::Schema.define(version: 2021_05_20_183052) do
 
   create_table "customers", force: :cascade do |t|
     t.string "name"
@@ -26,10 +26,31 @@ ActiveRecord::Schema.define(version: 2021_05_20_182810) do
     t.index ["customer_id"], name: "index_projects_on_customer_id"
   end
 
+  create_table "task_logs", force: :cascade do |t|
+    t.integer "duration_minutes"
+    t.integer "task_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["task_id"], name: "index_task_logs_on_task_id"
+    t.index ["user_id"], name: "index_task_logs_on_user_id"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "description"
+    t.integer "project_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["project_id"], name: "index_tasks_on_project_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   add_foreign_key "projects", "customers"
+  add_foreign_key "task_logs", "tasks"
+  add_foreign_key "task_logs", "users"
+  add_foreign_key "tasks", "projects"
 end
