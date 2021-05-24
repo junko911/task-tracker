@@ -1,8 +1,8 @@
 class Api::V1::CustomersController < ApplicationController
   def create
-    @customer = Customer.create(customer_params)
+    @customer = Customer.new(customer_params)
 
-    if @customer.valid?
+    if @customer.save
       render json: @customer
     else
       render json: @customer.errors, status: :unprocessable_entity
@@ -12,6 +12,6 @@ class Api::V1::CustomersController < ApplicationController
   private
 
   def customer_params
-    params.require(:customer).permit!
+    params.require(:customer).permit(:name)
   end
 end
