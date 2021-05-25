@@ -6,7 +6,7 @@ RSpec.describe Tokenizer, type: :service do
   describe ".encode" do
     before do
       allow(JWT).to receive(:encode)
-        .with({ user_id: user.id }, ENV["SECRET"])
+        .with({ user_id: user.id }, described_class::SECRET)
         .and_return("my-token")
     end
 
@@ -19,7 +19,7 @@ RSpec.describe Tokenizer, type: :service do
   describe ".decode" do
     before do
       allow(JWT).to receive(:decode)
-        .with("my-token", ENV["SECRET"], true, algorithm: "HS256")
+        .with("my-token", described_class::SECRET, true, algorithm: "HS256")
         .and_return([{ "user_id" => user.id }])
     end
 
