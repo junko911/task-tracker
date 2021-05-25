@@ -1,6 +1,6 @@
 class Api::V1::TaskLogsController < ApplicationController
   before_action :find_task, only: [:index, :create]
-  
+
   def index
     @task_logs = @task.task_logs
     render json: @task_logs
@@ -13,6 +13,7 @@ class Api::V1::TaskLogsController < ApplicationController
 
   def create
     @task_log = @task.task_logs.new(task_log_params)
+    @task_log.user = current_user
 
     if @task_log.save
       render json: @task_log
