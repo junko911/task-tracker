@@ -12,7 +12,8 @@ class Api::V1::TaskLogsController < ApplicationController
   end
 
   def create
-    @task_log = @task.task_logs.new(task_log_params)
+    @task_log = @task.task_logs.new
+    @task_log.update(start_time: Date.current)
     @task_log.user = current_user
 
     if @task_log.save
@@ -22,11 +23,18 @@ class Api::V1::TaskLogsController < ApplicationController
     end
   end
 
-  private
+  def update
+    @task_log = TaskLog.find(params[:id])
+    @task_log.update(end_time: Date.current)
 
-  def task_log_params
-    params.require(:task_log).permit(:duration_minutes)
+    if @task_log.save
+      render json: @task_log
+    else
+      render json: @task_log.errors, status: :unprocessable_entity
+    end
   end
+
+  private
 
   def find_task
     @task = Task.find(params[:task_id])
