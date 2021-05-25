@@ -14,7 +14,7 @@ Rails.application.routes.draw do
       end
 
       resources :tasks, only: %i(show update destroy) do
-        resources :task_logs, only: %i(index create)
+        resources :task_logs, only: %i(index create update)
       end
     end
   end
