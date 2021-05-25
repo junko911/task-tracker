@@ -1,7 +1,18 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+ApplicationRecord.transaction do
+  User.destroy_all
+  Customer.destroy_all
+
+  User.create!(email: "test@gmail.com", password: "123456", password_confirmation: "123456")
+
+  3.times do |cc|
+    customer = Customer.create!(name: "Customer #{cc}")
+
+    3.times do |pp|
+      project = Project.create!(customer: customer, name: "Project #{cc}-#{pp}")
+
+      3.times do |tt|
+        Task.create!(project: project, description: "Task description #{cc}-#{pp}-#{tt}")
+      end
+    end
+  end
+end
