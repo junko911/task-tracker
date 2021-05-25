@@ -12,9 +12,9 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
+    @task = @project.tasks.new(task_params)
 
-    if @project.tasks << @task
+    if @task.save
       render json: @task
     else
       render json: @task.errors, status: :unprocessable_entity
