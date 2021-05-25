@@ -20,7 +20,7 @@ class Api::V1::CustomersController < ApplicationController
   end
 
   def update
-    @customer.update(:customer_params)
+    @customer.update(customer_params)
     render json: @customer
   end
 
